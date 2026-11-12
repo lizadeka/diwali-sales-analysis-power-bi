@@ -51,33 +51,32 @@ After loading the data, I reviewed the available columns and data types to under
 
 The data was reviewed in Power Query before loading it into the Power BI model.
 
-The process included checking:
-
-- Column names
-- Data types
-- Missing or blank values
-- Date-related columns
-- Sales and other numeric fields
-- Data consistency
-
-The required transformations were then made to prepare the data for analysis.
+Reviewed the 42 columns, checked their data types and corrected the date formats in the Order Date, Ship Date and Delivery Date columns, which contained mixed formats. US and UK date formats were handled during parsing. I also inspected missing values, checked text fields for inconsistent casing, extra spaces and alternate spellings, and reviewed categorical and numeric columns for consistency. Valid blank values, such as delivery dates for orders still in transit, were retained rather than removed.
 
 ---
 
 ## 3. Creating a Star Schema
 
-After checking and transforming the data, I created a star schema for the Power BI model.
+After completing the data transformation in Power Query, I organised the data into a star schema to make analysis and filtering easier.
 
-The model separates the main sales data from the supporting dimension tables.
+The data model consists of one central fact table and three dimension tables:
 
-The main tables include:
+- **Fact_Sales:** The central table containing transaction-level information, including Order ID, Order Date, Customer ID, Product ID, sales values, quantity, discounts, returns, ratings and order status.
+- **Dim_Date:** A separate date table created using DAX with dates ranging from 1 January 2022 to 31 December 2025. It was used for time-based analysis, including monthly sales trends and year-over-year comparisons.
+- **Dim_Customer:** Created by removing duplicate Customer IDs from the customer data. It contains customer-related attributes such as gender, age, region and customer segment.
+- **Dim_Product:** Created by removing duplicate Product IDs and retaining product-related details such as product category and product tier.
 
-- **Fact Sales** – Contains the main sales and order-related information.
-- **Date Table** – Used for date and time-based analysis.
-- **Customer Table** – Contains customer-related information.
-- **Product Table** – Contains product and category details.
+### Relationships
 
-Relationships were created between the fact table and dimension tables to support filtering and analysis across the dashboard.
+I established one-to-many relationships between the dimension tables and the central Fact_Sales table:
+
+- Dim_Date[Date] → Fact_Sales[Order_Date]
+- Dim_Customer[Customer_ID] → Fact_Sales[Customer_ID]
+- Dim_Product[Product_ID] → Fact_Sales[Product_ID]
+
+All relationships were configured as active relationships with single-direction filtering, where the dimension tables filter the fact table.
+
+This structure allows the dashboard to analyse sales from different perspectives, such as time, customer demographics, product categories and customer segments, while keeping the data model organised.
 
 ---
 
