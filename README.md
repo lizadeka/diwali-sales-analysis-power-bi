@@ -165,9 +165,3 @@ The second page focuses on understanding the customers behind the sales.
 - Returning customers formed the largest customer segment.
 - Customers aged 25–44 made up a large part of the customer base.
 - Customer ratings were generally positive across product categories.
-
----
-
-## Dashboard
-
-The dashboard allows users to interact with the data using slicers and explore sales and customer patterns from different perspectives.
